@@ -50,3 +50,81 @@ echo $peliculas->pelicula->{'grandes-frases'}->frase;
 
 <!-- 4 -->
 
+<?php
+include 'ejemplo.php';
+
+$peliculas = new SimpleXMLElement($xmlstr);
+
+/* Para cada <personaje>, se muestra cada <nombre>. */
+foreach ($peliculas->pelicula->personajes->personaje as $personaje) {
+   echo $personaje->nombre, ' interpretado por ', $personaje->actor, PHP_EOL;
+}
+
+?>
+
+<!-- 5 -->
+
+<?php
+include 'ejemplo.php';
+
+$peliculas = new SimpleXMLElement($xmlstr);
+
+/* Acceder a los nodos <puntuacion> de la primera película.
+ * Mostrar la escala de puntuación también. */
+foreach ($peliculas->pelicula[0]->puntuacion as $puntuacion) {
+    switch((string) $puntuacion['tipo']) { // Obtener los atributos como índices del elemento
+    case 'votos':
+        echo $puntuacion, ' votos positivos';
+        break;
+    case 'estrellas':
+        echo $puntuacion, ' estrellas';
+        break;
+    }
+}
+?>
+
+<!-- 6 -->
+<?php     
+include 'ejemplo.php';
+
+$peliculas = new SimpleXMLElement($xmlstr);
+
+if ((string) $peliculas->pelicula->titulo == 'PHP: Tras el Analilzador') {
+    print 'Mi película favorita.';
+}
+
+echo htmlentities((string) $peliculas->pelicula->titulo);
+?>
+
+<!-- 7 -->
+<?php
+include 'ejemplo.php';
+
+$pelicula1 = new SimpleXMLElement($xmlstr);
+$pelicula2 = new SimpleXMLElement($xmlstr);
+var_dump($pelicula1 == $pelicula2); // falso desde PHP 5.2.0
+?>
+
+
+<!-- 8 -->
+
+<?php
+include 'ejemplo.php';
+
+$peliculas = new SimpleXMLElement($xmlstr);
+
+foreach ($peliculas->xpath('//personaje') as $personaje) {
+    echo $personaje->nombre . ' interpretado por ' . $personaje->actor, PHP_EOL;
+}
+?>
+
+<!-- 9 -->
+
+<?php
+include 'ejemplo.php';
+$peliculas = new SimpleXMLElement($xmlstr);
+
+$peliculas->pelicula[0]->personajes->personaje[0]->nombre = 'Srta. Programadora';
+
+echo $peliculas->asXML();
+?>
